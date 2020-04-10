@@ -1,8 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/utils/LocalStorageService.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(App());
+
+class App extends StatelessWidget {
+
+  Widget build(BuildContext context) {
+    LocalStorageService.init();
+    return FutureBuilder(
+      future: LocalStorageService.storage.ready,
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.data) {
+          dynamic data = LocalStorageService.getItem('hey');
+          print(data);
+
+          return MyApp();
+        }
+      },
+    );
+  }
+}
 
 class MyApp extends StatelessWidget {
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -49,7 +69,9 @@ class Home extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          LocalStorageService.setItem('hey', 'Hello world');
+        },
         child: Icon(
             Icons.add,
         ),
