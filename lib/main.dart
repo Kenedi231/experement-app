@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/utils/LocalStorageService.dart';
+import 'package:myapp/utils/KeyChainService.dart';
 
 void main() => runApp(App());
 
@@ -12,6 +13,9 @@ class App extends StatelessWidget {
       builder: (BuildContext context, snapshot) {
         if (snapshot.data) {
           dynamic data = LocalStorageService.getItem('hey');
+          KeyChainService.getValue('Key').then((onValue) {
+            print(onValue);
+          });
           print(data);
 
           return MyApp();
@@ -71,6 +75,7 @@ class Home extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           LocalStorageService.setItem('hey', 'Hello world');
+          KeyChainService.setItem('Key', "Hi V. S.");
         },
         child: Icon(
             Icons.add,
